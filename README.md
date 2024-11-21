@@ -129,6 +129,36 @@ Once you are done with the above steps, it is better to restart Jenkins.
 http://<ec2-instance-public-ip>:8080/restart
 ```
 
+
+
+## steps to install jenkins in ec2 linux
+
+https://claude.ai/chat/24514856-3642-4fbd-af19-f27cc6b73d7c 
+``` 
+1 sudo apt update
+
+2 sudo apt install openjdk-17-jre -y
+java -version  # Verify Java installation
+
+3 curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \
+  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+
+4 
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+
+5 
+sudo apt update
+sudo apt install jenkins -y
+
+6 
+sudo systemctl start jenkins
+sudo systemctl enable jenkins  # Enable Jenkins to start on boot
+sudo systemctl status jenkins  # Verify Jenkins is running
+
+
 The docker agent configuration is now successful.
 
 
