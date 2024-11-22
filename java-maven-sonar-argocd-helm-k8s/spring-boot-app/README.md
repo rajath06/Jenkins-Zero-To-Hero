@@ -62,6 +62,57 @@ cd sonarqube-9.4.0.54424/bin/linux-x86-64/
 ./sonar.sh start
 ```
 
+### updated sonar configuration
+```
+sudo apt-get update
+sudo apt-get upgrade -y
+
+sudo apt-get install openjdk-17-jdk -y
+
+sudo adduser --system --no-create-home --group --disabled-login sonarqube
+
+cd /opt
+sudo wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-10.3.0.82913.zip
+sudo apt-get install unzip
+sudo unzip sonarqube-10.3.0.82913.zip
+sudo mv sonarqube-10.3.0.82913 sonarqube
+
+sudo chown -R sonarqube:sonarqube /opt/sonarqube
+
+sudo nano /etc/systemd/system/sonarqube.service
+
+add the content to sonarqube.service
+[Unit]
+Description=SonarQube service
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/opt/sonarqube/bin/linux-x86-64/sonar.sh start
+ExecStop=/opt/sonarqube/bin/linux-x86-64/sonar.sh stop
+User=sonarqube
+Group=sonarqube
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+### start the service
+sudo systemctl daemon-reload
+sudo systemctl start sonarqube
+sudo systemctl enable sonarqube
+
+### memory configuration
+sudo sysctl -w vm.max_map_count=262144
+sudo echo "vm.max_map_count=262144" | sudo tee -a /etc/sysctl.conf
+
+### checkin the status
+
+sudo systemctl status sonarqube
+
+``` 
+
+
 Hurray !! Now you can access the `SonarQube Server` on `http://<ip-address>:9000` 
 
 
